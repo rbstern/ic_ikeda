@@ -1,0 +1,52 @@
+---
+title: "IC Ikeda 3"
+author: "Rafael Bassi Stern"
+date: "May 4, 2018"
+output: html_document
+---
+
+# Atividade da semana passada
+
+A densidade conjunta de $(X,Y)$ é dada por
+$$
+f_{X,Y}(x,y) = c x^2 \exp(-y) I(0 \leq x,y \leq 1)
+$$
+Queremos calcular $P\left(X^Y \leq 0.5\right)$.
+
+Sabemos que
+$$
+\begin{align*}
+ P\left(X^Y \leq 0.5\right)
+ &= E[I(X^Y \leq 0.5)] \\
+ &= \int I(x^y \leq 0.5) f_{X,Y}(x,y)d(x,y) \\
+ &= c \int I(x^y \leq 0.5) x^2 \exp(-y) d(x,y)
+\end{align*}
+$$
+Portanto, se chamarmos $g(x,y) = I(x^y \leq 0.5)x^2 \exp(-y)$ e
+$f_{U,V}(u,v) = I(0 \leq u,v \leq 1)$, temos
+
+$$
+\begin{align*}
+ P(X^y \leq 0.5) 
+ &= c \int g(x,y)d(x,y) \\
+ &= c \int g(x,y)f_{U,V}(u,v)d(x,y) \\
+ &= c E[g(U,V)] 
+ \approx c \frac{\sum_{i=1}^{n}g(U_i, V_i)}{n}
+\end{align*}
+$$
+
+Analogamente, obtemos que
+$c^{-1} \approx \frac{\sum_{i=1}^{n}h(U_i,V_i)}{n}$, onde
+$h(x,y) = x^2 \exp(-y)$. 
+
+Portanto, podemos aproximar a probabilidade desejada
+da seguinte forma:
+
+```{r}
+n = 10^5
+h = function(x, y) x^2 * exp(-y)
+g = function(x, y) (x^y <= 0.5) * h(x, y)
+X = runif(n)
+Y = runif(n)
+mean(g(X,Y))/mean(h(X,Y))
+```

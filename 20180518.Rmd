@@ -1,0 +1,14 @@
+---
+title: "IC Ikeda 5"
+author: "Rafael Bassi Stern"
+date: "May 11, 2018"
+output: html_document
+---
+
+# Exercício desta semana
+
+$$f_{X,Y} = c I(0 \leq x,y \leq 2)$$.
+Aproxime $P(X^2 + Y^2 \leq 1)$.
+Mas, desta vez, use 
+$(U,V)$ i.i.d. $N(0,1)$.
+Cuidado com a função a indicadora Luri!
