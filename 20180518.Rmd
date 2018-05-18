@@ -13,4 +13,28 @@ Mas, desta vez, use
 $(U,V)$ i.i.d. $N(0,1)$.
 Cuidado com a função a indicadora Luri!
 
-1
+Ao calcular a $\int_0^2\int_0^2 c\ d(x,y) = 1$, temos:
+$$
+\begin{align*}
+c\int_0^2 \int_0^2 d(x,y) = 1\\
+2c\int_0^2 d(y) = 1\\
+4c = 1\\
+c = \frac{1}{4}
+\end{align*}
+$$
+Também sabemos que:
+$$
+P(X^2 + Y^2 \leq 1) = E[I(X^2 + Y^2 \leq 1)]
+$$
+Assim sendo, calculamos:
+$$
+\begin{align*}
+E[I(X^2 + Y^2 \leq 1)] &= \int_0^2\int_0^2 \frac{1}{4} I(X^2 + Y^2 \leq 1) d(x,y) \\
+& = \frac{1}{4} \int_0^{\infty} \int_0^{\infty} h_{U,V} (u,v) d(u,v)\\
+& = \frac{1}{4}E[h(U,V)]\\
+\end{align*}
+$$
+Sabemos que $(U,V)$ i.i.d. $N(0,1)$, assim, $E[h_{U,V}(U,V)] = 0$
+Portanto, $P(X^2 + Y^2 \leq 1) = 0$
+
+Não me esqueci da indicadora, mas não é possível que isto esteja certo
