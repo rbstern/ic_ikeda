@@ -11,7 +11,7 @@ $$f_{X,Y} = c I(0 \leq x,y \leq 2)$$.
 Aproxime $P(X^2 + Y^2 \leq 1)$.
 Mas, desta vez, use 
 $(U,V)$ i.i.d. $N(0,1)$.
-Cuidado com a função a indicadora Luri!
+Cuidado com a função a indicadora, Luri!
 
 Ao calcular a $\int_0^2\int_0^2 c\ d(x,y) = 1$, temos:
 $$
@@ -34,35 +34,41 @@ E[I(X^2 + Y^2 \leq 1)] &= \int_0^2\int_0^2 \frac{1}{4} I(X^2 + Y^2 \leq 1) d(x,y
 & = \frac{1}{4}E[h(U,V)]\\
 \end{align*}
 $$
-  Onde igualamos f_{U,V}(u,v) a $\frac{1}{2\pi} exp [\frac {-u^2-v^2}{2}]$, e $U,V$ são i.i.d. $N(0,1)$.\
-  Logo,\
+
+Onde igualamos $f_{U,V}(u,v)$ a 
+$\frac{1}{2\pi} exp [\frac {-u^2-v^2}{2}]$, 
+e $U,V$ são i.i.d. $N(0,1)$. \
+Logo,
 
 $$
 \begin{align*}
-E[I(X^2 + Y^2 \leq 1)] &= \int_0^2 \int_0^2\frac {h_{U,V} (u,v).f_{U,V}(u,v) d(u,v)}{4f_{U,V}(u,v)}\\
-
-& = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty}\frac {h_{U,V} (u,v).f_{U,V}(u,v)}{4f_{U,V}(u,v)} I(0\leq u,v\leq2)d(u,v)\\
-
-& = E[\frac{h_{U,V}(u,v)}{4f_{U,V}(u,v)}]\\
-
-& = \frac{1}{4} E[\frac{h(U,V)}{f(U,V)}I(0 \leq U,V \leq 2)]\\
-
-&\approx \frac{1}{4} \sum_{1}^{n} \frac{h(U_i,V_i)}{f(U_i,V_i)}I(0 \leq U_i,V_i \leq 2)
+E[I(X^2 + Y^2 \leq 1)] 
+& = \int_0^2 \int_0^2\frac {h_{U,V} (u,v).f_{U,V}(u,v) d(u,v)}{4f_{U,V}(u,v)} \\
+& = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty}
+\frac{h_{U,V} (u,v).f_{U,V}(u,v)}{4f_{U,V}(u,v)} I(0\leq u,v\leq2)d(u,v) \\
+& = E\left[\frac{h_{U,V}(U,V)}{4f_{U,V}(U,V)}\right] \\
+& = \frac{1}{4} E\left[\frac{h(U,V)}{f(U,V)}I(0 \leq U,V \leq 2)\right] \\
+&\approx \frac{1}{4n} \sum_{1}^{n} \frac{h(U_i,V_i)}{f(U_i,V_i)}I(0 \leq U_i,V_i \leq 2)
 \end{align*}
-$$\
-  Substituindo as funções temos que: $\frac{1}{4} \sum_{1}^{n} \frac{h(U_i,V_i)}{f(U_i,V_i)}I(0 \leq U_i,V_i \leq 2)$ é igual a:
+$$
+Substituindo as funções temos que: 
+$\frac{1}{4n} \sum_{1}^{n} \frac{h(U_i,V_i)}{f(U_i,V_i)}I(0 \leq U_i,V_i \leq 2)$ 
+é igual a:
   
 $$
-\frac{1}{4} \sum_{1}^{n} \frac {I(U_i^2 + V_i^2 \leq 1)}{(2\pi)^{-1} exp[{\frac {-U_i^2 - V_i^2}{2}}]}I(0 \leq U_i, V_i \leq 2)
+\frac{1}{4n} \sum_{1}^{n} \frac {I(U_i^2 + V_i^2 \leq 1)}{(2\pi)^{-1} 
+\exp\left[{\frac {-U_i^2 - V_i^2}{2}}\right]}I(0 \leq U_i, V_i \leq 2)
 $$
-  Portanto,
+Portanto,
 $$
-P(X^2 + Y^2 \leq 1) \approx \frac{1}{4} \sum_{1}^{n} \frac {I(U_i^2 + V_i^2 \leq 1)}{(2\pi)^{-1} exp[{\frac {-U_i^2 - V_i^2}{2}}]}I(0 \leq U_i, V_i \leq 2)
+P(X^2 + Y^2 \leq 1) \approx \frac{1}{4n} \sum_{1}^{n} \frac {I(U_i^2 + V_i^2 \leq 1)}{(2\pi)^{-1} exp\left[{\frac {-U_i^2 - V_i^2}{2}}\right]}I(0 \leq U_i, V_i \leq 2)
 $$
 ```{r}
 n = 10^8
-x = runif(n,min = 0, max = 2)
-y = runif(n, min = 0, max = 2)
-h = function (x,y) (x^2+y^2 <=1)
+x = rnorm(n)
+y = rnorm(n)
+h = function (x,y) (x^2+y^2 <=1) 
+g = function (x,y) (x >= 0) * (y >= 0) * (x <= 2) * (y <= 2)
 f = function (x,y) (2*pi)^(-1)*exp((-x^2-y^2)/(2))
-(1/4)*mean(h(x,y)/f(x,y))
+(1/4)*mean(h(x,y)*g(x,y)/f(x,y))
+```

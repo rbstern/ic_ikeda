@@ -128,8 +128,8 @@ $(document).ready(function () {
 
 <div id="exercicio-desta-semana" class="section level1">
 <h1>Exercício desta semana</h1>
-<p><span class="math display">\[f_{X,Y} = c I(0 \leq x,y \leq 2)\]</span>. Aproxime <span class="math inline">\(P(X^2 + Y^2 \leq 1)\)</span>. Mas, desta vez, use <span class="math inline">\((U,V)\)</span> i.i.d. <span class="math inline">\(N(0,1)\)</span>. Cuidado com a função a indicadora Luri!</p>
-Ao calcular a <span class="math inline">\(\int_0^2\int_0^2 c\ d(x,y) = 1\)</span>, temos: <span class="math display">\[
+<p><span class="math display">\[f_{X,Y} = c I(0 \leq x,y \leq 2)\]</span>. Aproxime <span class="math inline">\(P(X^2 + Y^2 \leq 1)\)</span>. Mas, desta vez, use <span class="math inline">\((U,V)\)</span> i.i.d. <span class="math inline">\(N(0,1)\)</span>. Cuidado com a função a indicadora, Luri!</p>
+<p>Ao calcular a <span class="math inline">\(\int_0^2\int_0^2 c\ d(x,y) = 1\)</span>, temos: <span class="math display">\[
 \begin{align*}
 c\int_0^2 \int_0^2 d(x,y) = 1\\
 2c\int_0^2 d(y) = 1\\
@@ -144,34 +144,34 @@ E[I(X^2 + Y^2 \leq 1)] &amp;= \int_0^2\int_0^2 \frac{1}{4} I(X^2 + Y^2 \leq 1) d
 &amp; = \frac{1}{4} \int_0^{\infty} \int_0^{\infty} h_{U,V} (u,v) d(u,v)\\
 &amp; = \frac{1}{4}E[h(U,V)]\\
 \end{align*}
-\]</span> Onde igualamos f_{U,V}(u,v) a <span class="math inline">\(\frac{1}{2\pi} exp [\frac {-u^2-v^2}{2}]\)</span>, e <span class="math inline">\(U,V\)</span> são i.i.d. <span class="math inline">\(N(0,1)\)</span>.<br />
-Logo,<br />
-$$
-<span class="math display">\[\begin{align*}
-E[I(X^2 + Y^2 \leq 1)] &amp;= \int_0^2 \int_0^2\frac {h_{U,V} (u,v).f_{U,V}(u,v) d(u,v)}{4f_{U,V}(u,v)}\\
-
-&amp; = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty}\frac {h_{U,V} (u,v).f_{U,V}(u,v)}{4f_{U,V}(u,v)} I(0\leq u,v\leq2)d(u,v)\\
-
-&amp; = E[\frac{h_{U,V}(u,v)}{4f_{U,V}(u,v)}]\\
-
-&amp; = \frac{1}{4} E[\frac{h(U,V)}{f(U,V)}I(0 \leq U,V \leq 2)]\\
-
-&amp;\approx \frac{1}{4} \sum_{1}^{n} \frac{h(U_i,V_i)}{f(U_i,V_i)}I(0 \leq U_i,V_i \leq 2)
-\end{align*}\]</span>
-<p>$$<br />
-Substituindo as funções temos que: <span class="math inline">\(\frac{1}{4} \sum_{1}^{n} \frac{h(U_i,V_i)}{f(U_i,V_i)}I(0 \leq U_i,V_i \leq 2)\)</span> é igual a:</p>
+\]</span></p>
+<p>Onde igualamos <span class="math inline">\(f_{U,V}(u,v)\)</span> a <span class="math inline">\(\frac{1}{2\pi} exp [\frac {-u^2-v^2}{2}]\)</span>, e <span class="math inline">\(U,V\)</span> são i.i.d. <span class="math inline">\(N(0,1)\)</span>.<br />
+Logo,</p>
 <p><span class="math display">\[
-\frac{1}{4} \sum_{1}^{n} \frac {I(U_i^2 + V_i^2 \leq 1)}{(2\pi)^{-1} exp[{\frac {-U_i^2 - V_i^2}{2}}]}I(0 \leq U_i, V_i \leq 2)
+\begin{align*}
+E[I(X^2 + Y^2 \leq 1)] 
+&amp; = \int_0^2 \int_0^2\frac {h_{U,V} (u,v).f_{U,V}(u,v) d(u,v)}{4f_{U,V}(u,v)} \\
+&amp; = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty}
+\frac{h_{U,V} (u,v).f_{U,V}(u,v)}{4f_{U,V}(u,v)} I(0\leq u,v\leq2)d(u,v) \\
+&amp; = E\left[\frac{h_{U,V}(U,V)}{4f_{U,V}(U,V)}\right] \\
+&amp; = \frac{1}{4} E\left[\frac{h(U,V)}{f(U,V)}I(0 \leq U,V \leq 2)\right] \\
+&amp;\approx \frac{1}{4n} \sum_{1}^{n} \frac{h(U_i,V_i)}{f(U_i,V_i)}I(0 \leq U_i,V_i \leq 2)
+\end{align*}
+\]</span> Substituindo as funções temos que: <span class="math inline">\(\frac{1}{4n} \sum_{1}^{n} \frac{h(U_i,V_i)}{f(U_i,V_i)}I(0 \leq U_i,V_i \leq 2)\)</span> é igual a:</p>
+<p><span class="math display">\[
+\frac{1}{4n} \sum_{1}^{n} \frac {I(U_i^2 + V_i^2 \leq 1)}{(2\pi)^{-1} 
+\exp\left[{\frac {-U_i^2 - V_i^2}{2}}\right]}I(0 \leq U_i, V_i \leq 2)
 \]</span> Portanto, <span class="math display">\[
-P(X^2 + Y^2 \leq 1) \approx \frac{1}{4} \sum_{1}^{n} \frac {I(U_i^2 + V_i^2 \leq 1)}{(2\pi)^{-1} exp[{\frac {-U_i^2 - V_i^2}{2}}]}I(0 \leq U_i, V_i \leq 2)
+P(X^2 + Y^2 \leq 1) \approx \frac{1}{4n} \sum_{1}^{n} \frac {I(U_i^2 + V_i^2 \leq 1)}{(2\pi)^{-1} exp\left[{\frac {-U_i^2 - V_i^2}{2}}\right]}I(0 \leq U_i, V_i \leq 2)
 \]</span></p>
 <pre class="r"><code>n = 10^8
-x = runif(n,min = 0, max = 2)
-y = runif(n, min = 0, max = 2)
-h = function (x,y) (x^2+y^2 &lt;=1)
+x = rnorm(n)
+y = rnorm(n)
+h = function (x,y) (x^2+y^2 &lt;=1) 
+g = function (x,y) (x &gt;= 0) * (y &gt;= 0) * (x &lt;= 2) * (y &lt;= 2)
 f = function (x,y) (2*pi)^(-1)*exp((-x^2-y^2)/(2))
-(1/4)*mean(h(x,y)/f(x,y))</code></pre>
-<pre><code>## [1] 0.4002792</code></pre>
+(1/4)*mean(h(x,y)*g(x,y)/f(x,y))</code></pre>
+<pre><code>## [1] 0.1964298</code></pre>
 </div>
 
 
