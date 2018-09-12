@@ -1,0 +1,97 @@
+---
+title: "IC Ikeda 6"
+author: "Luri Ikeda"
+date: "September 12, 2018"
+output: html_document
+---
+
+# Algoritmo de Metropolis-Hastings
+
+Queremos simular de $f(\theta|x) \propto f(\theta)f(x|\theta)$.
+Para tal usaremos o algoritmo de Metropolis-Hastings:
+
+```{r}
+metropolis_hastings = function(rprop, dprop, mu, theta_1 = 1, B = 10^5)
+{
+  theta = rep(NA, B)
+  theta[1] = theta_1
+  for(ii in 2:B)
+  {
+    theta[ii] = rprop(theta[ii-1])
+    L = (mu(theta[ii])*dprop(theta[ii-1], theta[ii]))/
+      (mu(theta[ii-1])*dprop(theta[ii], theta[ii-1]))
+    if(runif(1) > L) theta[ii] = theta[ii-1]
+  }
+  theta
+}
+```
+
+## Exemplo 1
+
+$$
+\begin{align*}
+ \theta &\sim N(0,1) \\
+ X|\theta & \sim N(\theta,1)
+\end{align*}
+$$
+
+Observamos $X = 2$ e 
+queremos calcular $f(\theta|X=2)$.
+
+```{r}
+mu = function(theta) dnorm(theta, 0, 1)*dnorm(2, theta, 1)
+rprop = function(estado_anterior) estado_anterior + rnorm(1)
+dprop = function(proposta, estado_anterior) dnorm(proposta, estado_anterior, 1)
+theta = metropolis_hastings(rprop, dprop, mu)
+hist(theta)
+```
+
+Nosso estimador para $\theta$ é:
+
+```{r}
+mean(theta)
+```
+
+A variância de $f(\theta|x=2)$
+
+
+```{r}
+var(theta)
+```
+
+Ou até mesmo $E[e^{\theta}] \int e^{\theta} f(\theta|x) d\theta$:
+
+```{r}
+mean(exp(theta))
+```
+
+## Exemplo 2
+
+$$
+\begin{align*}
+ \theta &\sim N(0,1) \\
+ X_1,\ldots,X_n|\theta & \sim N(\theta,1)
+\end{align*}
+$$
+
+```{r}
+theta = 10
+n = 10
+x = rnorm(n, theta, 1)
+```
+
+Simule de $f(\theta|x)$ e $E[\theta|x]$.
+
+**Cuidado com a função mu, pois** $f(x|\theta)$
+**deve ser calculada com todos os dados**.
+
+## Exemplo 3
+
+$$
+\begin{align*}
+ \theta &\sim \text{Cauchy} \\
+ X|\theta &\sim N(\theta,1)
+\end{align*}
+$$
+
+
