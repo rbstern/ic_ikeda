@@ -11,20 +11,23 @@ Queremos simular de $f(\theta|x) \propto f(\theta)f(x|\theta)$.
 Para tal usaremos o algoritmo de Metropolis-Hastings:
 
 ```{r}
-metropolis_hastings = function(rprop, dprop, mu, theta_1 = 1, B = 10^5)
+metropolis_hastings = function(rprop, log_dprop, log_mu, theta_1 = 1, B = 10^5)
 {
   theta = rep(NA, B)
   theta[1] = theta_1
   for(ii in 2:B)
   {
     theta[ii] = rprop(theta[ii-1])
-    L = (mu(theta[ii])*dprop(theta[ii-1], theta[ii]))/
-      (mu(theta[ii-1])*dprop(theta[ii], theta[ii-1]))
-    if(runif(1) > L) theta[ii] = theta[ii-1]
+    log_L = log_mu(theta[ii]) + log_dprop(theta[ii-1], theta[ii]) -
+      log_mu(theta[ii-1]) -log_dprop(theta[ii], theta[ii-1])
+    if(log(runif(1)) > log_L) theta[ii] = theta[ii-1]
   }
   theta
 }
 ```
+
+PS: Note que tiramos o log para
+obter estabilidade numérica.
 
 ## Exemplo 1
 
@@ -39,10 +42,11 @@ Observamos $X = 2$ e
 queremos calcular $f(\theta|X=2)$.
 
 ```{r}
-mu = function(theta) dnorm(theta, 0, 1)*dnorm(2, theta, 1)
+log_mu = function(theta) log(dnorm(theta, 0, 1)) + log(dnorm(2, theta, 1))
 rprop = function(estado_anterior) estado_anterior + rnorm(1)
-dprop = function(proposta, estado_anterior) dnorm(proposta, estado_anterior, 1)
-theta = metropolis_hastings(rprop, dprop, mu)
+log_dprop = function(proposta, estado_anterior)
+  log(dnorm(proposta, estado_anterior, 1))
+theta = metropolis_hastings(rprop, log_dprop, log_mu)
 hist(theta)
 ```
 
@@ -76,23 +80,19 @@ $$
 
 ```{r}
 theta = 10
-n = 10
+n = 100
 x = rnorm(n, theta, 1)
-y = matrix(, ncol = theta, nrow = 1000)
-for (i in 1:1000)
-{y[i,] = rnorm(theta, mean = theta, sd = 1)}
 
-mu = function (theta) dnorm(theta, 0,1)*dnorm(y,theta, 1)
+log_mu = function(theta) log(dnorm(theta, 0, 1)) + sum(log(dnorm(x, theta, 1)))
 rprop = function(estado_anterior) estado_anterior + rnorm(1)
-dprop = function(proposta, estado_anterior) dnorm(proposta, estado_anterior, 1)
-theta = metropolis_hastings(rprop, dprop, mu)
+log_dprop = function(proposta, estado_anterior) 
+  log(dnorm(proposta, estado_anterior, 1))
+theta = metropolis_hastings(rprop, log_dprop, log_mu)
+
+mean(theta)
+var(theta)
 hist(theta)
 ```
-
-Simule de $f(\theta|x)$ e $E[\theta|x]$.
-
-**Cuidado com a função mu, pois** $f(x|\theta)$
-**deve ser calculada com todos os dados**.
 
 ## Exemplo 3
 
@@ -102,5 +102,4 @@ $$
  X|\theta &\sim N(\theta,1)
 \end{align*}
 $$
-
 
