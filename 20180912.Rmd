@@ -78,6 +78,15 @@ $$
 theta = 10
 n = 10
 x = rnorm(n, theta, 1)
+y = matrix(, ncol = theta, nrow = 1000)
+for (i in 1:1000)
+{y[i,] = rnorm(theta, mean = theta, sd = 1)}
+
+mu = function (theta) dnorm(theta, 0,1)*dnorm(y,theta, 1)
+rprop = function(estado_anterior) estado_anterior + rnorm(1)
+dprop = function(proposta, estado_anterior) dnorm(proposta, estado_anterior, 1)
+theta = metropolis_hastings(rprop, dprop, mu)
+hist(theta)
 ```
 
 Simule de $f(\theta|x)$ e $E[\theta|x]$.
