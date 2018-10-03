@@ -102,4 +102,14 @@ $$
  X|\theta &\sim N(\theta,1)
 \end{align*}
 $$
+Considerando X = 2:
 
+```{r}
+theta = 10
+log_mu = function(theta) log(dcauchy(theta, 0, 1)) + log(dnorm(2, theta, 1))
+rprop = function(estado_anterior) estado_anterior + rnorm(1)
+log_dprop = function(proposta, estado_anterior)
+  log(dnorm(proposta, estado_anterior, 1))
+theta = metropolis_hastings(rprop, log_dprop, log_mu)
+hist(theta)
+```
