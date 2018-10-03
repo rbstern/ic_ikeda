@@ -105,7 +105,6 @@ $$
 Considerando X = 2:
 
 ```{r}
-theta = 10
 log_mu = function(theta) log(dcauchy(theta, 0, 1)) + log(dnorm(2, theta, 1))
 rprop = function(estado_anterior) estado_anterior + rnorm(1)
 log_dprop = function(proposta, estado_anterior)
@@ -113,3 +112,12 @@ log_dprop = function(proposta, estado_anterior)
 theta = metropolis_hastings(rprop, log_dprop, log_mu)
 hist(theta)
 ```
+
+## Exemplo 4
+
+- $X|\theta \sim \text{Binomial}(10,\theta)$
+
+- $\theta \sim \text{Beta}(1,1)$.
+
+- Ache a densidade de $\theta|X=8$ usando Metropolis-Hastings e
+  compare com a densidade obtida usando o Teorema de Bayes.
