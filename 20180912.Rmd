@@ -121,3 +121,26 @@ hist(theta)
 
 - Ache a densidade de $\theta|X=8$ usando Metropolis-Hastings e
   compare com a densidade obtida usando o Teorema de Bayes.
+  
+```{r}
+library(tidyverse)
+log_mu = function(theta)
+{
+  if(theta <= 0 | theta >= 1) 
+    return(log(0))
+  log(dbeta(theta, 1, 1)) + log(dbinom(8, 10, theta))
+}
+rprop = function(estado_anterior) estado_anterior + rnorm(1)
+log_dprop = function(proposta, estado_anterior)
+  log(dnorm(proposta, estado_anterior, 1))
+theta = metropolis_hastings(rprop, log_dprop, log_mu, theta_1 = 0.5)
+hist(theta)
+
+dados = data.frame(theta = theta)
+densidade = function(x) dbeta(x, 9, 3)
+ggplot(aes(x = theta), 
+       data = dados) + 
+  geom_histogram(aes(y=..density..)) +
+  stat_function(fun = densidade, colour = "red")
+  xlab("valores") + ylab("densidade")
+```
