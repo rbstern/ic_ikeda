@@ -23,6 +23,10 @@ plot(amostra, ci_level = 0.8, outer_level = 0.95)
 # Teste de hipotese
 mean(theta1_amostra < theta2_amostra)
 
-# Para a proxima reuniao,
-# refazer o codigo .stan usando
-# matrizes e lacos.
+##########################################################
+# Para a proxima reuniao,                                #
+# refazer o codigo .stan usando                          #
+# matrizes e lacos.                                      #
+# para isso ler a parte II do 1o link em                 #
+# http://mc-stan.org/users/documentation/                #
+##########################################################
