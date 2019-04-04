@@ -141,6 +141,6 @@ densidade = function(x) dbeta(x, 9, 3)
 ggplot(aes(x = theta), 
        data = dados) + 
   geom_histogram(aes(y=..density..)) +
-  stat_function(fun = densidade, colour = "red")
+  stat_function(fun = densidade, colour = "red") +
   xlab("valores") + ylab("densidade")
 ```
